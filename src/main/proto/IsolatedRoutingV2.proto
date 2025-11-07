@@ -1,0 +1,64 @@
+syntax="proto3";
+
+package router;
+
+option java_multiple_files = true;
+option java_package = "isolated.proto";
+option java_outer_classname = "IsolatedRouterProto";
+//option objc_class_prefix = "IRTG";
+
+service Routing {
+  rpc GetRoute(RouteRequest) returns (RouteResponse) {}
+  rpc UpdateRouter(EventMessage) returns (EventReceived) {}
+}
+
+message RouteRequest {
+  string fromFacility = 1;
+  string toFacility = 2;
+  double departureTime = 3;
+  optional string personId = 4;
+//  optional Attribute attributes = 5;
+}
+
+message EventMessage {
+  double time = 1;
+  string type = 2;
+  string linkId = 3;
+  optional string vehicleId = 4;
+  optional string agentId = 5;
+  optional string driverId =6;
+  optional double relativePositionOnLink = 7;
+  optional string legMode = 8;
+  optional string networkMode = 9;
+  optional string routingMode = 10;
+}
+
+message Modes {
+  string mode = 1;
+  string routingMode = 2;
+}
+
+message Times {
+  double departureTime = 1;
+  double legTravelTime = 2;
+  double arrivalTime = 3;
+}
+
+message Route {
+  string startLinkId = 1;
+  string endLinkId = 2;
+  double routeTravelTime = 3;
+  double distance = 4;
+  double travelCost = 5;
+  string routeDescription = 6;
+}
+
+message RouteResponse {
+ Modes modes = 1;
+ Times times = 2;
+ Route route = 3;
+}
+
+message EventReceived {
+  string received = 1;
+}
